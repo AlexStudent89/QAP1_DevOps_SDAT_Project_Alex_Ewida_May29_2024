@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SuggestionsDatabase {
-    private Map<String,Integer> wordMap;
+    private Map<String, Integer> wordMap;
 
     public Map<String, Integer> getWordMap() {
         if (wordMap == null) {
             wordMap = new HashMap<String, Integer>();
         }
-
         return wordMap;
     }
 

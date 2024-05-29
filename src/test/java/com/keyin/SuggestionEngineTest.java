@@ -1,12 +1,9 @@
-
 package com.keyin;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.file.Paths;
@@ -17,13 +14,12 @@ import java.util.Map;
 public class SuggestionEngineTest {
 
     private SuggestionEngine suggestionEngine;
+    private SuggestionsDatabase suggestionsDatabase;
 
-    @Mock
-    private SuggestionsDatabase mockSuggestionDB;
-// BeforeEach method
     @BeforeEach
     public void setUp() {
         suggestionEngine = new SuggestionEngine();
+        suggestionsDatabase = new SuggestionsDatabase();
     }
 
     @Test
@@ -43,9 +39,9 @@ public class SuggestionEngineTest {
         Map<String, Integer> wordMapForTest = new HashMap<>();
         wordMapForTest.put("test", 1);
 
-        Mockito.when(mockSuggestionDB.getWordMap()).thenReturn(wordMapForTest);
+        ReflectionUtils.setField(suggestionsDatabase, "wordMap", wordMapForTest);
 
-        suggestionEngine.setWordSuggestionDB(mockSuggestionDB);
+        suggestionEngine.setWordSuggestionDB(suggestionsDatabase);
 
         Assertions.assertFalse(suggestionEngine.generateSuggestions("test").contains("test"));
         Assertions.assertTrue(suggestionEngine.generateSuggestions("tes").contains("test"));
